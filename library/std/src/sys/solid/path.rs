@@ -20,6 +20,8 @@ pub fn parse_prefix(_: &OsStr) -> Option<Prefix<'_>> {
 pub const MAIN_SEP_STR: &str = "\\";
 pub const MAIN_SEP: char = '\\';
 
-pub(crate) fn absolute(_path: &Path) -> io::Result<PathBuf> {
-    unsupported()
+pub(crate) fn absolute(path: &Path) -> io::Result<PathBuf> {
+    // this platform doesn't have a concept of currrent directory, hence
+    // relative paths are not supported
+    if path.is_absolute() { Ok(path.to_owned()) } else { unsupported() }
 }
